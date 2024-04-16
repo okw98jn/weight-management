@@ -1,0 +1,37 @@
+version: "3"
+services:
+    php:
+        container_name: php
+        build: ./php
+        volumes:
+            - ../src/backend:/var/www
+            - php-fpm-socket:/var/run/php-fpm
+        depends_on:
+            - mysql
+
+    nginx:
+        container_name: nginx
+        build: ./nginx
+        ports:
+            - "8000:80"
+        volumes:
+            - ../src/backend:/var/www
+            - php-fpm-socket:/var/run/php-fpm
+        depends_on:
+            - php
+
+    mysql:
+        container_name: mysql
+        build: ./mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql-volume:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_USER: root
+            MYSQL_ROOT_PASSWORD: 1234
+            MYSQL_DATABASE: weight_db
+
+volumes:
+    php-fpm-socket:
+    mysql-volume:
