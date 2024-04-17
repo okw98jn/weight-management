@@ -4,6 +4,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
 import "./globals.css";
 
@@ -27,4 +28,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  return (
+    <html>
+      <head>
+        <title>Error</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        エラー
+        {/* add the UI you want your users to see */}
+        <Scripts />
+      </body>
+    </html>
+  );
 }

@@ -1,7 +1,9 @@
 import type { MetaFunction } from "@remix-run/node";
-import DailyCard from "@/features/home/DailyCard";
-import MainCard from "@/features/home/MainCard";
-import TopCard from "@/features/home/TopCard";
+import DailyCard from "@/features/home/components/DailyCard";
+import MainCard from "@/features/home/components/MainCard";
+import TopCard from "@/features/home/components/TopCard";
+import { useLoaderData } from "@remix-run/react";
+import { fetchHomeData } from "@/features/home/api";
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,12 +12,18 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export const loader = async () => {
+  return fetchHomeData();
+};
+
 export default function Index() {
+  const homeData = useLoaderData<typeof loader>();
+
   return (
     <div className="grid grid-cols-5 gap-4 px-[4%] py-8 h-[90%]">
       <div className="col-span-4">
         <div className="flex flex-col gap-4 h-full">
-          <TopCard />
+          <TopCard top_card={homeData.top_card} />
           <MainCard />
         </div>
       </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Home\HomeResource;
 use App\Services\HomeService;
+use Illuminate\Http\JsonResponse;
 
 class HomeController extends Controller
 {
@@ -13,9 +14,9 @@ class HomeController extends Controller
      *
      * @param HomeService $service
      *
-     * @return HomeResource
+     * @return HomeResource|JsonResponse
      */
-    public function index(HomeService $service): HomeResource
+    public function index(HomeService $service): HomeResource|JsonResponse
     {
         try {
             return new HomeResource($service->getIndexData());
