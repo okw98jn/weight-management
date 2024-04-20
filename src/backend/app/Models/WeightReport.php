@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,16 +21,4 @@ class WeightReport extends Model
         'weight',
         'report_date',
     ];
-
-    /**
-     * 体重にkgを付与する
-     *
-     * @return Attribute
-     */
-    protected function weight(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => $value.'kg',
-        );
-    }
 }

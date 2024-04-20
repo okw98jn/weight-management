@@ -2,29 +2,14 @@
 
 namespace App\Utils;
 
-use Illuminate\Support\Str;
-
 /**
  * 体重に関するユーティリティクラス
  */
 class WeightUtil
 {
     /**
-     * kg表記の体重を小数に変換する
-     * アクセサを使用しているためこのメソッドで変換する必要がある
-     *
-     * @param string $weight
-     *
-     * @return float
-     */
-    public function removeKgString(string $weight): float
-    {
-        return (float) Str::remove('kg', $weight);
-    }
-
-    /**
      * 小数の体重をkg表記に変換する
-     * アクセサを使用できない場合に使用する
+     * 体重は計算に使用するため、アクセサは使用しない
      *
      * @param float $weight
      *

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Home;
 
+use App\Facades\WeightUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,8 +16,8 @@ class WeightReportsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'weight' => $this['weight'],
-            'weight_diff' => '1.1',
+            'weight' => WeightUtil::addKgString($this['weight']),
+            'weight_diff' => WeightUtil::addKgString(1.1),
             // 'weight_diff' => $this->weight_diff,
             'report_date' => $this['report_date'],
             'is_lower' => true,

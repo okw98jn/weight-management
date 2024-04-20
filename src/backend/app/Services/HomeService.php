@@ -18,12 +18,12 @@ class HomeService
      *
      * @return object
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function getIndexData(): object
     {
         try {
-            $user = User::find(1)->first();
+            $user = User::findOrFail(1);
 
             // 現在の目標設定を取得
             $goalSetting = $this->getCurrentGoalSetting($user->id);
@@ -42,30 +42,27 @@ class HomeService
     /**
      * トップカードに表示するデータを取得
      *
-     * @param int    $userId
-     * @param string $startWeight
-     * @param string $goalWeight
+     * @param int   $userId
+     * @param float $startWeight
+     * @param float $goalWeight
      *
      * @return object
      */
-    private function getTopCardData(int $userId, string $startWeight, string $goalWeight): object
+    private function getTopCardData(int $userId, float $startWeight, float $goalWeight): object
     {
-        // 本日の体重を取得
+        // 今日の体重を取得
         $todayWeight = WeightReport::select('weight')->where('user_id', $userId)
             ->whereDate('report_date', now())
             ->first()
-            ->weight ?? '0.0kg'
+            ->weight ?? 0.0
         ;
 
-        // 本日の体重と目標体重の差を取得
-        $weightDiff = WeightUtil::calcWeightDiff(
-            WeightUtil::removeKgString($todayWeight),
-            WeightUtil::removeKgString($goalWeight)
-        );
+        // 今日の体重と目標体重の差を取得
+        $weightDiff = WeightUtil::calcWeightDiff($todayWeight, $goalWeight);
 
         return collect([
             'today_weight' => $todayWeight,
-            'weight_diff' => WeightUtil::addKgString($weightDiff),
+            'weight_diff' => $weightDiff,
             'start_weight' => $startWeight,
             'goal_weight' => $goalWeight,
             'is_lower' => WeightUtil::isLower($weightDiff),
@@ -75,12 +72,12 @@ class HomeService
     /**
      * Dailyカードに表示するデータを取得
      *
-     * @param int    $userId
-     * @param string $goalWeight
+     * @param int   $userId
+     * @param float $goalWeight
      *
      * @return object
      */
-    private function getDailyCardData(int $userId, string $goalWeight): object
+    private function getDailyCardData(int $userId, float $goalWeight): object
     {
         return WeightReport::where('user_id', $userId)
             ->where('report_date', '<', today())
@@ -91,17 +88,25 @@ class HomeService
     }
 
     /**
-     * ユーザーの現在の目標設定を取得
+     * ユーザーの現在の目標設定を取得 TODO: 専用の例外クラスを作成する
      *
      * @param int $userId
      *
      * @return GoalSetting
+     *
+     * @throws \Exception
      */
     private function getCurrentGoalSetting(int $userId): GoalSetting
     {
-        return GoalSetting::where('user_id', $userId)
+        $goalSetting = GoalSetting::where('user_id', $userId)
             ->where('is_current_goal', true)
             ->first()
         ;
+
+        if (!$goalSetting) {
+            throw new \Exception('goalSetting not found');
+        }
+
+        return $goalSetting;
     }
 }
