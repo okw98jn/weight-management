@@ -38,3 +38,4 @@ jobs:
           ./src/backend/vendor/bin/php-cs-fixer fix --diff --dry-run --using-cache=no --config=./src/backend/.php-cs-fixer.dist.php ./src/backend/routes
           ./src/backend/vendor/bin/php-cs-fixer fix --diff --dry-run --using-cache=no --config=./src/backend/.php-cs-fixer.dist.php ./src/backend/lang
           ./src/backend/vendor/bin/php-cs-fixer fix --diff --dry-run --using-cache=no --config=./src/backend/.php-cs-fixer.dist.php ./src/backend/tests
+          ./src/backend/vendor/bin/phpstan analyse -c ./src/backend/phpstan.neon --memory-limit=2G
