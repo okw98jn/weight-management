@@ -1,0 +1,36 @@
+name: php-cs-fixer-and-larastan
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
+        sparse-checkout: |
+          .github
+          src
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+    - name: Cache vender
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: src/vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+    - name: Composer install
+      if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+      run: composer install --working-dir=./src -n --prefer-dist
+    - name: Execute php-cs-fixer-and-larastan
+      run: |
+        ./src/vendor/bin/php-cs-fixer fix --diff --dry-run --using-cache=no --config=./src/.php-cs-fixer.dist.php .
+      
