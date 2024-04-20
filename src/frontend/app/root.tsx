@@ -31,7 +31,20 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  const error = useRouteError();
+  const error: any = useRouteError();
+  let ErrorMessage;
+
+  switch (error.status) {
+    case 404:
+      ErrorMessage = <p>ページが見つかりません。</p>;
+      break;
+    case 500:
+      ErrorMessage = <p>サーバーエラーが発生しました。</p>;
+      break;
+    default:
+      ErrorMessage = <p>エラーが発生しました。</p>;
+      break;
+  }
   return (
     <html>
       <head>
@@ -40,7 +53,7 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body>
-        エラー
+        {ErrorMessage}
         {/* add the UI you want your users to see */}
         <Scripts />
       </body>
