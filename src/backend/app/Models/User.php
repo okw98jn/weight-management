@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -46,13 +45,13 @@ class User extends Authenticatable
     }
 
     /**
-     * 現在の目標設定を取得
+     * 体重記録を取得
      *
-     * @return HasOne
+     * @return HasMany
      */
-    public function currentGoalSetting(): HasOne
+    public function weightReports(): HasMany
     {
-        return $this->hasOne(GoalSetting::class)->where('is_current_goal', true);
+        return $this->hasMany(WeightReport::class);
     }
 
     /**

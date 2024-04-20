@@ -16,11 +16,13 @@ class HomeResource extends JsonResource
     {
         return [
             'top_card' => [
-                'today_weight' => '70.0kg',
-                'weight_diff' => '3.0kg',
-                'start_weight' => $this->currentGoalSetting->start_weight,
-                'goal_weight' => $this->currentGoalSetting->goal_weight,
+                'today_weight' => $this['top_card']['today_weight'],
+                'weight_diff' => $this['top_card']['weight_diff'],
+                'start_weight' => $this['top_card']['start_weight'],
+                'goal_weight' => $this['top_card']['goal_weight'],
+                'is_lower' => $this['top_card']['is_lower'],
             ],
+            'daily_card' => WeightReportsResource::collection($this['daily_card']),
         ];
     }
 }

@@ -29,5 +29,3 @@ COPY ./zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 
 # 設定変更の必要がある場合はコメントアウトを外す
 # COPY ./php.ini /usr/local/etc/php/php.ini
-
-# test

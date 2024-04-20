@@ -38,6 +38,8 @@ class GoalSetting extends Model
 
     /**
      * 開始体重にkgを付与する
+     *
+     * @return Attribute
      */
     protected function startWeight(): Attribute
     {
@@ -48,6 +50,8 @@ class GoalSetting extends Model
 
     /**
      * 目標体重にkgを付与する
+     *
+     * @return Attribute
      */
     protected function goalWeight(): Attribute
     {
