@@ -47,10 +47,7 @@ migrate:
 fresh:
 	docker compose exec php php artisan migrate:fresh --seed
 
-# stan
-fixer:
+# php-cs-fixer + stan
+check:
 	docker compose exec php ./vendor/bin/php-cs-fixer fix
-
-# stan
-stan:
 	docker compose exec php ./vendor/bin/phpstan analyse --memory-limit=2G
