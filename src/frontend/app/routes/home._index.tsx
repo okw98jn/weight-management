@@ -28,7 +28,7 @@ export default function Index() {
         </div>
       </div>
       <div className="col-span-1">
-        <DailyCard />
+        <DailyCard daily_card={homeData.daily_card} />
       </div>
     </div>
   );

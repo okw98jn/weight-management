@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import type { TopCard } from "@/features/home/types/Index";
+import { getTextColor } from "@/features/home/utils/CommonUtil";
 
 type Props = {
   top_card: TopCard;
@@ -11,8 +12,14 @@ const TopCard: React.FC<Props> = ({ top_card }) => {
       <CardContent>
         <p className="flex items-center gap-2">
           <span className="text-gray-500 text-sm">Today</span>
-          <span className="font-bold text-black text-2xl">
-            -{top_card.weight_diff}
+          <span
+            className={`font-bold text-2xl ${getTextColor(
+              top_card.today_weight,
+              top_card.is_lower
+            )}`}
+          >
+            {!top_card.is_lower && "+"}
+            {top_card.weight_diff}
           </span>
         </p>
       </CardContent>
