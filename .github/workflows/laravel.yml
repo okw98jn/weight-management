@@ -23,14 +23,14 @@ jobs:
       id: cache
       uses: actions/cache@v4
       with:
-        path: src/vendor
+        path: src/backend/vendor
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
     - name: Composer install
       if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-      run: composer install --working-dir=./src -n --prefer-dist
+      run: composer install --working-dir=./src/backend -n --prefer-dist
     - name: Execute php-cs-fixer-and-larastan
       run: |
-        ./src/vendor/bin/php-cs-fixer fix --diff --dry-run --using-cache=no --config=./src/.php-cs-fixer.dist.php .
+        ./src/backend/vendor/bin/php-cs-fixer fix --diff --dry-run --using-cache=no --config=./src/backend/.php-cs-fixer.dist.php .
       
