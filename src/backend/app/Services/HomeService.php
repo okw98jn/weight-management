@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\GoalSettingNotFoundException;
 use App\Facades\WeightUtil;
 use App\Models\GoalSetting;
 use App\Models\User;
@@ -79,32 +80,45 @@ class HomeService
      */
     private function getDailyCardData(int $userId, float $goalWeight): object
     {
-        return WeightReport::where('user_id', $userId)
+        // 過去の記録を取得
+        $weightReports = WeightReport::select('weight', 'report_date')
+            ->where('user_id', $userId)
             ->where('report_date', '<', today())
             ->orderBy('report_date', 'desc')
             ->limit(config('home.daily_card.max_data_length'))
             ->get()
         ;
+
+        // 各要素に目標体重との差と比較結果を追加
+        return $weightReports->map(function ($report) use ($goalWeight) {
+            $report['weight_diff'] = WeightUtil::calcWeightDiff($report['weight'], $goalWeight);
+            $report['is_lower'] = WeightUtil::isLower($report['weight_diff']);
+
+            return $report;
+        });
     }
 
     /**
-     * ユーザーの現在の目標設定を取得 TODO: 専用の例外クラスを作成する
+     * ユーザーの現在の目標設定を取得
      *
      * @param int $userId
      *
      * @return GoalSetting
      *
-     * @throws \Exception
+     * @throws GoalSettingNotFoundException
      */
     private function getCurrentGoalSetting(int $userId): GoalSetting
     {
-        $goalSetting = GoalSetting::where('user_id', $userId)
+        // 目標設定を取得
+        $goalSetting = GoalSetting::select('start_weight', 'goal_weight')
+            ->where('user_id', $userId)
             ->where('is_current_goal', true)
             ->first()
         ;
 
+        // 目標設定が存在しない場合は専用の例外をスロー
         if (!$goalSetting) {
-            throw new \Exception('goalSetting not found');
+            throw new GoalSettingNotFoundException(__('home.goal_setting.not_found'));
         }
 
         return $goalSetting;

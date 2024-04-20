@@ -10,6 +10,7 @@ class WeightUtil
     /**
      * 小数の体重をkg表記に変換する
      * 体重は計算に使用するため、アクセサは使用しない
+     * 50.0kgのように小数点以下1桁で表示するため、number_formatを使用
      *
      * @param float $weight
      *
@@ -17,7 +18,7 @@ class WeightUtil
      */
     public function addKgString(float $weight): string
     {
-        return $weight.'kg';
+        return number_format($weight, 1).'kg';
     }
 
     /**
@@ -35,7 +36,7 @@ class WeightUtil
             return 0.0;
         }
 
-        return round($weight - $todayWeight, 1);
+        return round($todayWeight - $weight, 1);
     }
 
     /**

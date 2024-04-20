@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Home;
 
-use App\Facades\WeightUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,14 +15,8 @@ class HomeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'top_card' => [
-                'today_weight' => WeightUtil::addKgString($this['top_card']['today_weight']),
-                'weight_diff' => WeightUtil::addKgString($this['top_card']['weight_diff']),
-                'start_weight' => WeightUtil::addKgString($this['top_card']['start_weight']),
-                'goal_weight' => WeightUtil::addKgString($this['top_card']['goal_weight']),
-                'is_lower' => $this['top_card']['is_lower'],
-            ],
-            'daily_card' => WeightReportsResource::collection($this['daily_card']),
+            'top_card' => new TopCardResource($this['top_card']),
+            'daily_card' => DailyCardResource::collection($this['daily_card']),
         ];
     }
 }

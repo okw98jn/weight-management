@@ -18,7 +18,7 @@ class GoalSettingFactory extends Factory
     {
         return [
             'start_weight' => fake()->randomFloat(1, 60.0, 70.0),
-            'goal_weight' => fake()->randomFloat(1, 50.0, 59.9),
+            'goal_weight' => fake()->randomFloat(1, 60.0, 70.0),
             'is_current_goal' => false,
         ];
     }
