@@ -9,6 +9,7 @@ $finder = PhpCsFixer\Finder::create()
         __DIR__ . '/config',
         __DIR__ . '/database/seeders',
         __DIR__ . '/routes',
+        __DIR__ . '/lang',
         __DIR__ . '/tests',
     ]);
 
