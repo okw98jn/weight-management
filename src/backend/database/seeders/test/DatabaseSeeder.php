@@ -1,12 +1,15 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Test;
 
 use App\Models\GoalSetting;
 use App\Models\User;
 use App\Models\WeightReport;
 use Illuminate\Database\Seeder;
 
+/**
+ * テストに最低限必要なデータを投入するシーダー
+ */
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -20,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
-            ]);
+            ])
+        ;
     }
 }
