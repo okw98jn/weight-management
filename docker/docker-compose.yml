@@ -3,7 +3,6 @@ version: "3"
 volumes:
     weight-mg-php-fpm-socket:
     weight-mg-db-volume:
-    weight-mg-test-db-volume:
 
 services:
     weight-mg-app:
@@ -33,19 +32,8 @@ services:
             - "3306:3306"
         volumes:
             - weight-mg-db-volume:/var/lib/mysql
+            - ./mysql/init:/docker-entrypoint-initdb.d
         environment:
             MYSQL_ROOT_USER: root
             MYSQL_ROOT_PASSWORD: 1234
             MYSQL_DATABASE: weight_mg
-
-    weight-mg-test-db:
-        container_name: weight-mg-test-db
-        build: ./mysql
-        ports:
-            - "3307:3306"
-        volumes:
-            - weight-mg-test-db-volume:/var/lib/mysql
-        environment:
-            MYSQL_ROOT_USER: root
-            MYSQL_ROOT_PASSWORD: 1234
-            MYSQL_DATABASE: weight_mg_test
