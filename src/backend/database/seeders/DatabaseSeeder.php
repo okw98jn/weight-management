@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
-            ]);
+            ])
+        ;
     }
 }
