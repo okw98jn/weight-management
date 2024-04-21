@@ -1,37 +1,51 @@
 version: "3"
+
+volumes:
+    weight-mg-php-fpm-socket:
+    weight-mg-db-volume:
+    weight-mg-test-db-volume:
+
 services:
-    php:
-        container_name: php
+    weight-mg-app:
+        container_name: weight-mg-app
         build: ./php
         volumes:
             - ../src/backend:/var/www
-            - php-fpm-socket:/var/run/php-fpm
+            - weight-mg-php-fpm-socket:/var/run/php-fpm
         depends_on:
-            - mysql
+            - weight-mg-db
 
-    nginx:
-        container_name: nginx
+    weight-mg-web:
+        container_name: weight-mg-web
         build: ./nginx
         ports:
             - "8000:80"
         volumes:
             - ../src/backend:/var/www
-            - php-fpm-socket:/var/run/php-fpm
+            - weight-mg-php-fpm-socket:/var/run/php-fpm
         depends_on:
-            - php
+            - weight-mg-app
 
-    mysql:
-        container_name: mysql
+    weight-mg-db:
+        container_name: weight-mg-db
         build: ./mysql
         ports:
             - "3306:3306"
         volumes:
-            - mysql-volume:/var/lib/mysql
+            - weight-mg-db-volume:/var/lib/mysql
         environment:
             MYSQL_ROOT_USER: root
             MYSQL_ROOT_PASSWORD: 1234
-            MYSQL_DATABASE: weight_db
+            MYSQL_DATABASE: weight_mg
 
-volumes:
-    php-fpm-socket:
-    mysql-volume:
+    weight-mg-test-db:
+        container_name: weight-mg-test-db
+        build: ./mysql
+        ports:
+            - "3307:3306"
+        volumes:
+            - weight-mg-test-db-volume:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_USER: root
+            MYSQL_ROOT_PASSWORD: 1234
+            MYSQL_DATABASE: weight_mg_test
