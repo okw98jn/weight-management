@@ -68,9 +68,9 @@ class IndexTest extends TestCase
                         'id' => 3,
                         'title' => '70.0kg',
                         'start' => '2024-04-24',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
     }
 
