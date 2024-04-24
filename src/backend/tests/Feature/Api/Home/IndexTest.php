@@ -48,6 +48,29 @@ class IndexTest extends TestCase
                     'is_lower' => false,
                 ],
             ],
+            'main_card' => [
+                'graph' => [
+                    0 => [
+                        'date' => '1.1',
+                        'weight' => '60.0',
+                    ],
+                    1 => [
+                        'date' => '1.2',
+                        'weight' => '50.0',
+                    ],
+                    2 => [
+                        'date' => '4.24',
+                        'weight' => '70.0',
+                    ],
+                ],
+                'calendar' => [
+                    0 => [
+                        'id' => 3,
+                        'title' => '70.0kg',
+                        'start' => '2024-04-24',
+                    ]
+                ],
+            ]
         ]);
     }
 
