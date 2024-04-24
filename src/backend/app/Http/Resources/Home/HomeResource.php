@@ -17,6 +17,10 @@ class HomeResource extends JsonResource
         return [
             'top_card' => new TopCardResource($this['top_card']),
             'daily_card' => DailyCardResource::collection($this['daily_card']),
+            'main_card' => [
+                'graph' => GraphResource::collection($this['main_card']['graph']),
+                'calendar' => CalendarResource::collection($this['main_card']['calendar']),
+            ],
         ];
     }
 }

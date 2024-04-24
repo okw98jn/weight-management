@@ -7,6 +7,7 @@ use App\Facades\WeightUtil;
 use App\Models\GoalSetting;
 use App\Models\User;
 use App\Models\WeightReport;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -32,6 +33,10 @@ class HomeService
             return collect([
                 'top_card' => $this->getTopCardData($user->id, $goalSetting->start_weight, $goalSetting->goal_weight),
                 'daily_card' => $this->getDailyCardData($user->id, $goalSetting->goal_weight),
+                'main_card' => [
+                    'graph' => $this->getGraphData($user->id),
+                    'calendar' => $this->getCalendarData($user->id),
+                ],
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -122,5 +127,48 @@ class HomeService
         }
 
         return $goalSetting;
+    }
+
+    /**
+     * グラフに表示するデータを取得
+     *
+     * @param int $userId
+     *
+     * @return object
+     */
+    private function getGraphData(int $userId): object
+    {
+        // 30日分の体重記録を取得
+        $weightReports = WeightReport::select('weight', 'report_date')
+            ->where('user_id', $userId)
+            ->orderBy('report_date', 'desc')
+            ->limit(config('home.main_card.graph.max_data_length'))
+            ->get()
+            ->reverse()
+        ;
+
+        // グラフに表示するデータを整形する
+        return $weightReports->map(function ($report) {
+            return [
+                'weight' => $report['weight'],
+                'report_date' => Carbon::parse($report['report_date'])->format('n.j'),
+            ];
+        });
+    }
+
+    /**
+     * カレンダーに表示するデータを取得
+     *
+     * @param int $userId
+     *
+     * @return object
+     */
+    private function getCalendarData(int $userId): object
+    {
+        // 当月の体重記録を取得
+        return WeightReport::select('id', 'weight', 'report_date')
+            ->where('user_id', $userId)
+            ->whereBetween('report_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->get();
     }
 }
