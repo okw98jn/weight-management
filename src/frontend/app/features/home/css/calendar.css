@@ -1,0 +1,30 @@
+.fc .fc-col-header-cell {
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: #b6b5b3;
+}
+
+.fc .fc-scrollgrid-sync-table {
+  border: 1px;
+}
+
+.fc .fc-daygrid-day-number {
+  font-size: 0.75rem;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: #ffffff00;
+}
+
+.today-circle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  flex-flow: column;
+  vertical-align: top;
+  background: #eb5757;
+  color: white;
+  width: 30px;
+  height: 30px;
+}

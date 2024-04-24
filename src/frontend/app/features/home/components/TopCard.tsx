@@ -8,7 +8,7 @@ type Props = {
 
 const TopCard: React.FC<Props> = ({ top_card }) => {
   return (
-    <Card className="py-6 flex flex-col gap-3">
+    <Card className="pt-4 flex flex-col">
       <CardContent>
         <p className="flex items-center gap-2">
           <span className="text-gray-500 text-sm">Today</span>

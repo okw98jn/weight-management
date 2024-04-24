@@ -1,6 +1,7 @@
 export type HomeData = {
   top_card: TopCard;
   daily_card: DailyCard;
+  main_card: MainCard;
 };
 
 export type TopCard = {
@@ -16,4 +17,20 @@ export type DailyCard = {
   weight_diff: string;
   report_date: string;
   is_lower: boolean;
+}[];
+
+export type MainCard = {
+  graph: GraphData;
+  calendar: CalendarData;
+};
+
+export type GraphData = {
+  date: string;
+  weight: string;
+}[];
+
+export type CalendarData = {
+  id: string;
+  title: string;
+  start: string;
 }[];

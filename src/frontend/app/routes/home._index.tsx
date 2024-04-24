@@ -24,7 +24,7 @@ export default function Index() {
       <div className="col-span-4">
         <div className="flex flex-col gap-4 h-full">
           <TopCard top_card={homeData.top_card} />
-          <MainCard />
+          <MainCard main_card={homeData.main_card} />
         </div>
       </div>
       <div className="col-span-1">
